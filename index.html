@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Buchanan Presidential Archive & Antebellum Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --charcoal-deep: #0b0f17;
+            --slate-dark: #161e2e;
+            --slate-mid: #243044;
+            --brass-gold: #c5a059;
+            --brass-light: #e8cf96;
+            --text-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-deep);
+            color: var(--text-light);
+        }
+
+        .font-serif-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        .glass-panel {
+            background: rgba(22, 30, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(36, 48, 68, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(197, 160, 89, 0.7);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(197, 160, 89, 0.3);
+        }
+
+        .gradient-gold-text {
+            background: linear-gradient(135deg, #ffffff 0%, #e8cf96 50%, #c5a059 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(11, 15, 23, 0.5);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.4);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(197, 160, 89, 0.7);
+        }
+    </style>
+</head>
+<body class="custom-scrollbar overflow-x-hidden selection:bg-amber-600 selection:text-slate-950">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-amber-500/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-300 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 font-bold">
+                        <span class="font-serif-title font-bold text-lg">JB</span>
+                    </div>
+                    <div>
+                        <span class="font-serif-title text-xl font-bold tracking-wider text-white block">BUCHANAN ARCHIVE</span>
+                        <span class="text-xs text-amber-300 tracking-widest uppercase">15th U.S. President (1857–1861)</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#overview" class="text-gray-300 hover:text-amber-300 transition-colors">Overview</a>
+                    <a href="#works" class="text-gray-300 hover:text-amber-300 transition-colors">10 Key Works</a>
+                    <a href="#treatise" class="text-gray-300 hover:text-amber-300 transition-colors">Historical Treatise</a>
+                    <a href="#crisis" class="text-gray-300 hover:text-amber-300 transition-colors">Sectional Crisis</a>
+                    <a href="#family" class="text-gray-300 hover:text-amber-300 transition-colors">Harriet Lane & Lineage</a>
+                    <a href="#literature" class="text-gray-300 hover:text-amber-300 transition-colors">Books (8)</a>
+                    <a href="#cabinet" class="text-gray-300 hover:text-amber-300 transition-colors">Helping Hands</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <button onclick="openSearchModal()" class="p-2.5 rounded-full bg-slate-900/60 text-amber-300 hover:bg-slate-800 hover:text-white border border-amber-500/30 transition-all">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button onclick="window.print()" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all shadow-md shadow-amber-500/30">
+                        <i class="fas fa-print text-xs"></i>
+                        <span>Export Archive</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden glass-panel border-b border-amber-500/30 px-4 pt-2 pb-6 space-y-3">
+            <a href="#overview" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Overview</a>
+            <a href="#works" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">10 Key Works</a>
+            <a href="#treatise" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Historical Treatise</a>
+            <a href="#crisis" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Sectional Crisis</a>
+            <a href="#family" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Harriet Lane & Lineage</a>
+            <a href="#literature" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Books (8)</a>
+            <a href="#cabinet" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base text-gray-300 hover:bg-slate-800/60">Helping Hands</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="overview" class="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-slate-950 via-charcoal-deep to-charcoal-deep">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 text-xs font-bold tracking-wider uppercase">
+                        <i class="fas fa-landmark text-amber-400"></i>
+                        <span>15th President of the United States • Antebellum Crisis Era</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold font-serif-title leading-tight">
+                        James Buchanan <br>
+                        <span class="gradient-gold-text">Legal Strictures & Sectional Strife</span>
+                    </h1>
+                    <p class="text-lg text-gray-300 leading-relaxed font-light">
+                        James Buchanan served as the 15th U.S. President during the perilous years preceding the American Civil War. A veteran diplomat, Secretary of State, and Senator from Pennsylvania, his presidency was defined by the Dred Scott decision, territorial conflict in Kansas, financial panic, and his strict constitutional view on the legalities of Southern secession.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+                        <div class="glass-card p-4 rounded-xl text-center">
+                            <span class="text-3xl font-extrabold text-amber-400 font-serif-title">1,461</span>
+                            <span class="block text-xs text-gray-400 uppercase mt-1">Days in Office</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl text-center">
+                            <span class="text-3xl font-extrabold text-amber-300 font-serif-title">1857</span>
+                            <span class="block text-xs text-gray-400 uppercase mt-1">Dred Scott Ruling</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl text-center">
+                            <span class="text-3xl font-extrabold text-amber-400 font-serif-title">1st</span>
+                            <span class="block text-xs text-gray-400 uppercase mt-1">Transatlantic Cable</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl text-center">
+                            <span class="text-3xl font-extrabold text-amber-300 font-serif-title">1860</span>
+                            <span class="block text-xs text-gray-400 uppercase mt-1">Secession Crisis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buchanan Photo Section -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto w-full max-w-md rounded-2xl overflow-hidden glass-panel p-3 border border-amber-500/40 shadow-2xl">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/James_Buchanan_state_portrait_by_Mathew_Brady_1859.jpg" alt="President James Buchanan Official Portrait" class="w-full h-auto max-h-[480px] object-cover rounded-xl brightness-95 contrast-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-charcoal-deep via-transparent to-transparent opacity-60"></div>
+                        <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl glass-panel border border-amber-500/30">
+                            <p class="text-sm italic text-amber-100 font-serif-title">"I feel an honest conviction that I have always performed my duty... according to the best of my ability."</p>
+                            <p class="text-xs text-amber-400 font-semibold mt-1 text-right">— James Buchanan</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 10 Major Accomplishments Slider -->
+    <section id="works" class="py-20 bg-slate-950/40 border-y border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-bold font-serif-title text-white">10 Key Works & Historical Events</h2>
+                    <p class="text-amber-300 mt-2">From judicial rulings and territorial constitutions to transatlantic communications and crisis diplomacy</p>
+                </div>
+                <div class="flex space-x-3 mt-6 md:mt-0">
+                    <button id="slidePrev" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-amber-300 hover:text-white hover:bg-slate-800 transition-all">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="slideNext" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-amber-300 hover:text-white hover:bg-slate-800 transition-all">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel -->
+            <div class="relative overflow-hidden">
+                <div id="worksSlider" class="flex transition-transform duration-500 ease-out gap-6">
+                    <!-- Dynamic rendering -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Historical Treatise -->
+    <section id="treatise" class="py-20 bg-charcoal-deep relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-amber-500/30">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 text-xs font-bold uppercase tracking-wider">Historical Treatise</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-white mt-3">The Buchanan Presidency & The Gathering Storm (1857–1861)</h2>
+                    <p class="text-amber-200/80 text-sm mt-2">Comprehensive breakdown of antebellum diplomacy, territorial strife, economic disruption, and executive secession doctrine</p>
+                </div>
+
+                <div class="prose prose-invert max-w-none text-gray-300 space-y-6 text-justify text-base leading-relaxed font-light">
+                    <h3 class="text-2xl font-serif-title font-bold text-amber-300 border-b border-amber-500/30 pb-2">I. Antebellum Politics & Pre-Presidency Career</h3>
+                    <p>
+                        James Buchanan brought over three decades of high-level government service to the presidency in March 1857. Having served as a U.S. Representative, Senator from Pennsylvania, Secretary of State under James K. Polk (supervising the Oregon Treaty and the Treaty of Guadalupe Hidalgo), and Minister to Great Britain under Franklin Pierce, Buchanan was widely considered one of the most qualified statesmen of his era.
+                    </p>
+                    <p>
+                        While serving as Minister to the Court of St. James's, he co-authored the controversial 1854 <strong>Ostend Manifesto</strong>, which suggested that the United States should acquire Cuba from Spain, by purchase or force if necessary. This document alienated Northern anti-slavery advocates but solidified his standing among Southern Democrats, securing him the Democratic presidential nomination in 1856 as a unifying national candidate who was untainted by the bloody Kansas-Nebraska Act debates.
+                    </p>
+
+                    <h3 class="text-2xl font-serif-title font-bold text-amber-300 border-b border-amber-500/30 pb-2 mt-8">II. The Dred Scott Decision & Kansas Lecompton Constitution</h3>
+                    <p>
+                        Two days after Buchanan's inauguration, Chief Justice Roger B. Taney delivered the landmark <strong>Dred Scott v. Sandford</strong> decision. In his inaugural address, Buchanan had hinted at the upcoming ruling, urging all citizens to abide by the Supreme Court's constitutional determination. The decision declared that African Americans were not citizens and that Congress lacked constitutional power to prohibit slavery in federal territories, rendering the Missouri Compromise unconstitutional.
+                    </p>
+                    <p>
+                        Instead of quelling sectional turmoil, the ruling enraged Northern Republicans and anti-slavery Democrats. Buchanan further inflamed the territorial controversy in "Bleeding Kansas" by backing the pro-slavery <strong>Lecompton Constitution</strong> in 1857–1858, despite its rejection by the majority of Kansas voters. This decision split the Democratic Party, putting Buchanan into direct conflict with Senator Stephen A. Douglas.
+                    </p>
+
+                    <h3 class="text-2xl font-serif-title font-bold text-amber-300 border-b border-amber-500/30 pb-2 mt-8">III. The Panic of 1857 & Diplomatic Milestones</h3>
+                    <p>
+                        Late in 1857, the American economy was struck by the <strong>Panic of 1857</strong>, triggered by the collapse of the Ohio Life Insurance and Trust Company, railroad over-expansion, and falling grain prices. Buchanan responded with strict Democratic fiscal conservatism, opposing federal relief intervention, advocating specie-backed paper currency, and urging states to reform banking laws.
+                    </p>
+                    <p>
+                        In international affairs, the administration achieved notable highlights. In August 1858, Buchanan exchanged the first transatlantic telegraph cable messages with Queen Victoria. In 1859, he dispatched General Winfield Scott to peacefully arbitrate the <strong>Pig War</strong> border standoff with Britain in the San Juan Islands. In May 1860, Buchanan welcomed the first official Japanese Embassy delegation to Washington, establishing formal diplomatic and commercial ties with East Asia.
+                    </p>
+
+                    <h3 class="text-2xl font-serif-title font-bold text-amber-300 border-b border-amber-500/30 pb-2 mt-8">IV. The Election of 1860, Secession Crisis & Executive Inaction Debate</h3>
+                    <p>
+                        Following the November 1860 election of Republican Abraham Lincoln, South Carolina passed its ordinance of secession on December 20, 1860, followed shortly by six other Deep South states. In his final Annual Message to Congress on December 3, 1860, Buchanan articulated his dual constitutional doctrine: he argued that while individual state secession was illegal and unconstitutional, the federal government possessed no explicit constitutional power to use military force to keep a state in the Union against its will.
+                    </p>
+                    <p>
+                        Attempting to prevent armed conflict before Lincoln took office, Buchanan supported peace efforts such as the failed <strong>Crittenden Compromise</strong> and the Washington Peace Conference of 1861. While he refused to surrender federal forts in the South, including Fort Sumter in Charleston Harbor, his attempt to resupply the fort via the civilian steamship <em>Star of the West</em> in January 1861 turned back after coming under fire. Buchanan handed over the executive office to Lincoln on March 4, 1861, leaving the Union on the brink of civil war.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sectional Crisis & Secession Doctrine Spotlight -->
+    <section id="crisis" class="py-20 bg-slate-950/40 border-t border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="w-16 h-16 rounded-full bg-amber-600/20 text-amber-400 border border-amber-400/30 flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-white">The Constitutional Secession Paradox</h2>
+                <p class="text-amber-300 mt-2">The four pillars of Buchanan's antebellum executive doctrine during the 1860–1861 crisis</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-card p-6 rounded-2xl relative">
+                    <div class="text-amber-400 text-3xl mb-3"><i class="fas fa-gavel"></i></div>
+                    <h3 class="text-xl font-bold text-white font-serif-title mb-2">1. Illegal Secession</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-light">Maintained that state secession was an unconstitutional act of revolution without legal justification under the U.S. Constitution.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl relative">
+                    <div class="text-amber-400 text-3xl mb-3"><i class="fas fa-hand-holding-hand"></i></div>
+                    <h3 class="text-xl font-bold text-white font-serif-title mb-2">2. Coercion Limits</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-light">Asserted that the Federal Executive possessed no explicit constitutional mandate or power to wage war against a seceding state.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl relative">
+                    <div class="text-amber-400 text-3xl mb-3"><i class="fas fa-shield-halved"></i></div>
+                    <h3 class="text-xl font-bold text-white font-serif-title mb-2">3. Defense of Forts</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-light">Refused to surrender federal military installations in Charleston Harbor, maintaining U.S. property claims at Fort Sumter.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl relative">
+                    <div class="text-amber-400 text-3xl mb-3"><i class="fas fa-dove"></i></div>
+                    <h3 class="text-xl font-bold text-white font-serif-title mb-2">4. Peace Conciliation</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-light">Encouraged congressional compromise measures like the Crittenden Compromise to avert armed conflict prior to Lincoln's inauguration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Harriet Lane & Family Lineage -->
+    <section id="family" class="py-20 bg-charcoal-deep">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 text-xs font-semibold uppercase tracking-wider">White House Hostess & Patron</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-white">Harriet Lane: The "Democratic Queen"</h2>
+                    <p class="text-gray-300 leading-relaxed font-light">
+                        As James Buchanan was America's only lifelong bachelor president, his orphaned niece Harriet Lane served as official White House Hostess. Highly educated and socially adept, "Hal" Lane won widespread acclaim for her diplomatic hosting, handling seating arrangements among rival sectional leaders with exceptional tact, promoting American art, and advocating for Native American welfare.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-4 rounded-xl border border-amber-500/20">
+                            <i class="fas fa-crown text-amber-400 text-xl mb-2"></i>
+                            <h4 class="text-white font-bold text-sm">Diplomatic Excellence</h4>
+                            <p class="text-gray-400 text-xs mt-1">Acclaimed host for the 1860 reception of Prince Edward (future King Edward VII).</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl border border-amber-500/20">
+                            <i class="fas fa-heart-pulse text-amber-300 text-xl mb-2"></i>
+                            <h4 class="text-white font-bold text-sm">Philanthropic Legacy</h4>
+                            <p class="text-gray-400 text-xs mt-1">Founded the Harriet Lane Home for Invalid Children at Johns Hopkins Hospital.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <!-- Family Tree Visual -->
+                    <div class="glass-panel p-8 rounded-3xl border border-amber-500/30">
+                        <h3 class="text-2xl font-serif-title font-bold text-white mb-6 text-center">The Buchanan Family & Wardship</h3>
+                        
+                        <div class="space-y-6">
+                            <!-- Parents -->
+                            <div class="flex justify-center space-x-6 text-center">
+                                <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/40 w-44">
+                                    <span class="text-xs text-amber-400 uppercase">Father</span>
+                                    <p class="text-white font-bold text-sm">James Buchanan Sr.</p>
+                                    <span class="text-xs text-gray-400">1761–1821 (Merchant)</span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/40 w-44">
+                                    <span class="text-xs text-amber-400 uppercase">Mother</span>
+                                    <p class="text-white font-bold text-sm">Elizabeth Speer Buchanan</p>
+                                    <span class="text-xs text-gray-400">1767–1833</span>
+                                </div>
+                            </div>
+
+                            <div class="w-0.5 h-6 bg-amber-500/40 mx-auto"></div>
+
+                            <!-- Bachelor President Node -->
+                            <div class="flex justify-center">
+                                <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 border-2 border-amber-400 text-center w-80 shadow-lg shadow-amber-500/20">
+                                    <span class="text-xs text-amber-300 font-bold uppercase tracking-wider">15th U.S. President (1857–1861)</span>
+                                    <h4 class="text-lg font-bold text-white font-serif-title mt-1">James Buchanan</h4>
+                                    <span class="text-xs text-gray-300 block mt-1">1791–1868 • Lifelong Bachelor</span>
+                                </div>
+                            </div>
+
+                            <div class="w-0.5 h-6 bg-amber-500/40 mx-auto"></div>
+
+                            <!-- Ward / First Lady Hostess -->
+                            <div class="flex justify-center">
+                                <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/40 text-center w-72">
+                                    <span class="text-xs text-amber-300 uppercase font-bold">Niece & White House Hostess</span>
+                                    <p class="text-white font-bold text-sm mt-0.5">Harriet Lane (Johnston)</p>
+                                    <span class="text-xs text-gray-400">1830–1903 • "Democratic Queen"</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Literature Shelf (8 Books) -->
+    <section id="literature" class="py-20 bg-slate-950/40 border-t border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 text-xs font-semibold uppercase tracking-wider">Presidential Publications</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-white mt-2">8 Featured Books & Archival Volumes</h2>
+                <p class="text-amber-300 mt-2">Explore publications, state papers, and biographies on James Buchanan</p>
+            </div>
+
+            <div id="booksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dynamic render -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cabinet Grid -->
+    <section id="cabinet" class="py-20 bg-charcoal-deep">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 text-xs font-semibold uppercase tracking-wider">The Administration</span>
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-white mt-2">Helping Hands: Key Cabinet & Advisors</h2>
+                <p class="text-amber-300 mt-2">Click any profile card to inspect key cabinet figures in the Buchanan administration</p>
+            </div>
+
+            <div id="cabinetGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamic cabinet render -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-amber-500/30 py-12 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex justify-center space-x-3 items-center">
+                <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 font-serif-title font-bold">JB</div>
+                <span class="font-serif-title text-lg text-white font-bold">James Buchanan Presidential Archive</span>
+            </div>
+            <p class="text-gray-400 max-w-2xl mx-auto text-xs leading-relaxed">
+                Dedicated to documenting the life, 15th presidency, diplomatic service, and antebellum constitutional history of James Buchanan (1791–1868).
+            </p>
+            <p class="text-xs text-amber-400">Charcoal, Slate & Antique Gold Theme • Interactive Single-Page Application</p>
+        </div>
+    </footer>
+
+    <!-- Universal Modal -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-3xl w-full max-h-[90vh] rounded-3xl border border-amber-500/40 p-6 sm:p-8 overflow-y-auto custom-scrollbar relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-900/80 text-gray-300 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-all">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-start justify-center pt-24 p-4">
+        <div class="glass-panel max-w-2xl w-full rounded-2xl border border-amber-500/40 p-6">
+            <div class="flex items-center space-x-3 border-b border-amber-500/40 pb-4">
+                <i class="fas fa-search text-amber-400 text-lg"></i>
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search Dred Scott, Lecompton, Secession, Cass, Cobb..." class="bg-transparent w-full text-white placeholder-gray-400 focus:outline-none text-lg">
+                <button onclick="closeSearchModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="searchResults" class="mt-4 space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
+                <p class="text-xs text-gray-400 text-center py-4">Type to search across the entire Buchanan presidential archive...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ARCHITECTURE --- //
+
+        const worksData = [
+            {
+                title: "Dred Scott Case Stance & Executive Endorsement",
+                year: "1857",
+                category: "Judicial Policy",
+                icon: "fa-gavel",
+                desc: "Supported the Supreme Court's Dred Scott decision in his Inaugural Address, hoping it would legally settle the federal territorial slavery debate."
+            },
+            {
+                title: "Lecompton Constitution Support",
+                year: "1857–1858",
+                category: "Territorial Politics",
+                icon: "fa-scroll",
+                desc: "Endorsed the pro-slavery Lecompton Constitution for Kansas statehood, triggering a sharp political fracture within the Democratic Party."
+            },
+            {
+                title: "Panic of 1857 Fiscal Management",
+                year: "1857",
+                category: "Economic Policy",
+                icon: "fa-coins",
+                desc: "Responded to the 1857 financial panic with strict fiscal conservatism, opposing federal debt relief and urging paper currency reform."
+            },
+            {
+                title: "Utah War & Peace Settlement",
+                year: "1857–1858",
+                category: "Territorial Command",
+                icon: "fa-shield-halved",
+                desc: "Dispatched federal troops to Utah Territory under Col. Albert Sidney Johnston, eventually negotiating a peaceful resolution with Brigham Young."
+            },
+            {
+                title: "First Transatlantic Cable Message",
+                year: "1858",
+                category: "Communications Milestone",
+                icon: "fa-bolt",
+                desc: "Exchanged historic telegraphic greetings with Queen Victoria via the newly laid transatlantic cable, celebrating transatlantic unity."
+            },
+            {
+                title: "Covode Committee Investigation Defense",
+                year: "1860",
+                category: "Congressional Defense",
+                icon: "fa-scale-balanced",
+                desc: "Vigorously defended executive independence against a partisan House investigation accusing his administration of political bribery."
+            },
+            {
+                title: "Reception of First Japanese Embassy",
+                year: "1860",
+                category: "Diplomatic History",
+                icon: "fa-earth-asia",
+                desc: "Welcomed Japan's first official diplomatic mission to the White House, ratifying the Treaty of Amity and Commerce."
+            },
+            {
+                title: "Pig War Boundary Arbitration",
+                year: "1859",
+                category: "Border Diplomacy",
+                icon: "fa-flag",
+                desc: "Dispatched General Winfield Scott to the Pacific Northwest to peacefully resolve the San Juan Islands boundary dispute with Britain."
+            },
+            {
+                title: "Crittenden Compromise & Secession Stance",
+                year: "1860–1861",
+                category: "Sectional Crisis",
+                icon: "fa-hand-holding-hand",
+                desc: "Maintained that secession was illegal but that federal military coercion was unconstitutional, supporting peace conciliation efforts."
+            },
+            {
+                title: "Authorship of the Ostend Manifesto",
+                year: "1854",
+                category: "Foreign Policy",
+                icon: "fa-file-signature",
+                desc: "Co-authored diplomatic dispatch proposing U.S. acquisition of Cuba from Spain, shaping antebellum expansionist foreign policy."
+            }
+        ];
+
+        const booksData = [
+            {
+                id: "book-1",
+                title: "Mr. Buchanan's Administration on the Eve of the Rebellion",
+                year: "1866",
+                topic: "Presidential Memoir by James Buchanan",
+                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80",
+                summary: "President Buchanan's self-authored defense of his administration, published after the Civil War to detail his constitutional reasoning, cabinet deliberations, and efforts to avert armed conflict between 1857 and 1861."
+            },
+            {
+                id: "book-2",
+                title: "James Buchanan",
+                year: "2004",
+                topic: "Biography by Jean H. Baker",
+                cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80",
+                summary: "Part of the American Presidents Series, Jean Baker offers a sharp critical assessment of Buchanan's career, focusing on his pro-Southern political sympathies, Kansas policy errors, and secession crisis leadership."
+            },
+            {
+                id: "book-3",
+                title: "President James Buchanan: A Biography",
+                year: "1962",
+                topic: "Definitive Biography by Philip Shriver Klein",
+                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80",
+                summary: "Philip Klein's comprehensive, balanced biographical study details Buchanan's Pennsylvania roots, extensive diplomatic career in Russia and Great Britain, and four challenging years in the White House."
+            },
+            {
+                id: "book-4",
+                title: "The Presidency of James Buchanan",
+                year: "1975",
+                topic: "Scholarly Analysis by Elbert B. Smith",
+                cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80",
+                summary: "An authoritative study of Buchanan's executive management, examining the Dred Scott ruling, Bleeding Kansas, the Panic of 1857, and the unraveling of the Democratic Party during the sectional crisis."
+            },
+            {
+                id: "book-5",
+                title: "Harriet Lane: Hostess to the Nation",
+                year: "2007",
+                topic: "Biography by Milton Lomask",
+                cover: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=400&q=80",
+                summary: "Explores the influential life of Harriet Lane, Buchanan's orphaned niece who became a national cultural icon, art patron, and adept First Lady hostess during a tumultuous presidential era."
+            },
+            {
+                id: "book-6",
+                title: "The Disruption of American Democracy",
+                year: "1948",
+                topic: "Pulitzer Prize History by Roy Franklin Nichols",
+                cover: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=400&q=80",
+                summary: "Pulitzer Prize-winning historical examination of the breakdown of the national Democratic Party and federal governance during the Buchanan presidency from 1856 to 1861."
+            },
+            {
+                id: "book-7",
+                title: "The Works of James Buchanan (12 Volumes)",
+                year: "1908–1911",
+                topic: "Archival Collection by John Bassett Moore",
+                cover: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&w=400&q=80",
+                summary: "The definitive 12-volume archival collection of Buchanan's speeches, diplomatic correspondence, executive messages, and personal letters spanning six decades of public life."
+            },
+            {
+                id: "book-8",
+                title: "The Emergence of Lincoln: Prologue to Civil War",
+                year: "1950",
+                topic: "Historical Analysis by Allan Nevins",
+                cover: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=400&q=80",
+                summary: "Allan Nevins's classic work analyzing the political, social, and economic turmoil of the late 1850s, setting Buchanan's presidency against the rise of the Republican Party."
+            }
+        ];
+
+        const cabinetData = [
+            {
+                name: "Lewis Cass",
+                role: "Secretary of State (1857–1860)",
+                bio: "Veteran Michigan statesman, general, and presidential candidate who led diplomatic relations until resigning in December 1860 in protest of Buchanan's refusal to reinforce Southern forts.",
+                achievement: "Supervised Foreign Relations & Resigned in 1860 Crisis"
+            },
+            {
+                name: "Jeremiah S. Black",
+                role: "Attorney General & Secretary of State (1857–1861)",
+                bio: "Pennsylvania jurist who served as Attorney General before succeeding Cass as Secretary of State; heavily influenced Buchanan's legal opinions on federal property rights and secession.",
+                achievement: "Formulated Administration Legal Policy & Fort Rights"
+            },
+            {
+                name: "Howell Cobb",
+                role: "Secretary of the Treasury (1857–1860)",
+                bio: "Former Speaker of the House and Governor of Georgia who managed federal finances during the Panic of 1857 before resigning in 1860 to support Georgia's secession.",
+                achievement: "Managed Fiscal Policy During Panic of 1857"
+            },
+            {
+                name: "John B. Floyd",
+                role: "Secretary of War (1857–1860)",
+                bio: "Former Virginia Governor who directed military administration until his controversial resignation in late 1860 amid arms transfer allegations and Fort Sumter disputes.",
+                achievement: "Directed Pre-Civil War Military Infrastructure"
+            },
+            {
+                name: "Isaac Toucey",
+                role: "Secretary of the Navy (1857–1861)",
+                bio: "Connecticut attorney and former Governor who expanded naval steam vessel construction and dispatched forces for home waters protection.",
+                achievement: "Modernized Naval Steam Infrastructure"
+            },
+            {
+                name: "Jacob Thompson",
+                role: "Secretary of the Interior (1857–1861)",
+                bio: "Mississippi statesman who managed public lands, Indian affairs, and territorial administration before resigning in January 1861 upon Mississippi's secession.",
+                achievement: "Managed Public Lands & Indian Affairs"
+            }
+        ];
+
+        // --- RENDER LOGIC --- //
+
+        function renderWorksSlider() {
+            const container = document.getElementById('worksSlider');
+            container.innerHTML = worksData.map((item, idx) => `
+                <div class="w-80 sm:w-96 flex-shrink-0 glass-card p-6 rounded-2xl border border-amber-500/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 border border-amber-500/30">${item.category}</span>
+                            <span class="text-xs font-semibold text-amber-300 font-serif-title">${item.year}</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 text-xl mb-4">
+                            <i class="fas ${item.icon}"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2 font-serif-title">${item.title}</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed font-light">${item.desc}</p>
+                    </div>
+                    <button onclick="openWorkDetail(${idx})" class="mt-6 w-full py-2.5 rounded-xl bg-slate-900/60 hover:bg-amber-500 text-amber-300 hover:text-slate-950 text-xs font-bold tracking-wider uppercase transition-all border border-amber-500/30">
+                        Explore Full Impact
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderBooksGrid() {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = booksData.map(book => `
+                <div onclick="openBookModal('${book.id}')" class="glass-card rounded-2xl p-5 border border-amber-500/30 cursor-pointer group hover:border-amber-400/60 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-56 rounded-xl overflow-hidden mb-4 bg-charcoal-deep">
+                            <img src="${book.cover}" alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-charcoal-deep via-transparent to-transparent opacity-80"></div>
+                            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-charcoal-deep/90 border border-amber-400/30 text-[10px] text-amber-300 font-bold font-serif-title">${book.year}</span>
+                        </div>
+                        <span class="text-[10px] text-amber-300 uppercase font-semibold tracking-widest">${book.topic}</span>
+                        <h3 class="text-lg font-bold text-white font-serif-title mt-1 group-hover:text-amber-300 transition-colors">${book.title}</h3>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-amber-500/20 flex items-center justify-between text-xs text-amber-300 font-medium">
+                        <span>Read Summary</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCabinetGrid() {
+            const grid = document.getElementById('cabinetGrid');
+            grid.innerHTML = cabinetData.map((person, idx) => `
+                <div onclick="openCabinetModal(${idx})" class="glass-card p-6 rounded-2xl border border-amber-500/30 cursor-pointer group hover:border-amber-400/60 transition-all">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-300 flex items-center justify-center text-slate-950 font-bold text-lg mb-4 shadow-md shadow-amber-500/20">
+                        ${person.name.charAt(0)}
+                    </div>
+                    <span class="text-xs text-amber-300 font-semibold uppercase tracking-wider">${person.role}</span>
+                    <h3 class="text-xl font-bold text-white font-serif-title mt-1 group-hover:text-amber-300 transition-colors">${person.name}</h3>
+                    <p class="text-gray-300 text-sm mt-3 font-light leading-relaxed line-clamp-3">${person.bio}</p>
+                    <div class="mt-4 pt-3 border-t border-amber-500/20 text-xs text-amber-300 font-medium flex items-center justify-between">
+                        <span>${person.achievement}</span>
+                        <i class="fas fa-plus text-xs"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- SLIDER CONTROLS --- //
+        let currentSlide = 0;
+        function setupSliderControls() {
+            const slider = document.getElementById('worksSlider');
+            const prev = document.getElementById('slidePrev');
+            const next = document.getElementById('slideNext');
+            const maxSlides = worksData.length - 1;
+
+            next.addEventListener('click', () => {
+                currentSlide = currentSlide < maxSlides ? currentSlide + 1 : 0;
+                updateSlider();
+            });
+
+            prev.addEventListener('click', () => {
+                currentSlide = currentSlide > 0 ? currentSlide - 1 : maxSlides;
+                updateSlider();
+            });
+
+            function updateSlider() {
+                const cardWidth = window.innerWidth < 640 ? 320 + 24 : 384 + 24;
+                slider.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+            }
+        }
+
+        // --- MODALS --- //
+        function openModal(htmlContent) {
+            const modal = document.getElementById('modalOverlay');
+            document.getElementById('modalContent').innerHTML = htmlContent;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+        }
+
+        function openBookModal(bookId) {
+            const book = booksData.find(b => b.id === bookId);
+            if(!book) return;
+
+            openModal(`
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row items-center gap-6 border-b border-amber-500/30 pb-6">
+                        <img src="${book.cover}" alt="${book.title}" class="w-36 h-48 object-cover rounded-xl shadow-lg border border-amber-500/30">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-slate-900/80 text-amber-300 text-xs font-bold uppercase tracking-wider">${book.topic}</span>
+                            <h2 class="text-2xl sm:text-3xl font-serif-title font-bold text-white mt-2">${book.title}</h2>
+                            <p class="text-amber-300 text-sm font-semibold mt-1">Published: ${book.year}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-serif-title font-bold text-amber-300 mb-3">Archival Summary</h4>
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base font-light text-justify">${book.summary}</p>
+                    </div>
+                    <div class="pt-4 border-t border-amber-500/20 flex justify-end">
+                        <button onclick="closeModal()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all">Close</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function openWorkDetail(index) {
+            const work = worksData[index];
+            openModal(`
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4 border-b border-amber-500/30 pb-4">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-2xl">
+                            <i class="fas ${work.icon}"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-amber-300 uppercase font-bold tracking-wider">${work.category} (${work.year})</span>
+                            <h2 class="text-2xl font-serif-title font-bold text-white">${work.title}</h2>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed font-light">${work.desc}</p>
+                    <div class="glass-card p-4 rounded-xl border border-amber-500/20 text-xs text-amber-100">
+                        <i class="fas fa-info-circle text-amber-300 mr-2"></i>
+                        <span>Permanent historical record maintained at the Library of Congress (James Buchanan Papers).</span>
+                    </div>
+                </div>
+            `);
+        }
+
+        function openCabinetModal(index) {
+            const person = cabinetData[index];
+            openModal(`
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4 border-b border-amber-500/30 pb-4">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-300 flex items-center justify-center text-slate-950 text-2xl font-bold font-serif-title">
+                            ${person.name.charAt(0)}
+                        </div>
+                        <div>
+                            <span class="text-xs text-amber-300 uppercase font-bold tracking-wider">${person.role}</span>
+                            <h2 class="text-2xl font-serif-title font-bold text-white">${person.name}</h2>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-amber-300 uppercase tracking-wider mb-2">Historical Role</h4>
+                        <p class="text-gray-300 text-base leading-relaxed font-light">${person.bio}</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border border-amber-500/30">
+                        <span class="text-xs text-amber-300 uppercase font-bold">Key Contribution</span>
+                        <p class="text-white font-medium text-sm mt-1">${person.achievement}</p>
+                    </div>
+                </div>
+            `);
+        }
+
+        // --- SEARCH --- //
+        function openSearchModal() {
+            document.getElementById('searchModal').classList.remove('hidden');
+            document.getElementById('searchInput').focus();
+        }
+
+        function closeSearchModal() {
+            document.getElementById('searchModal').classList.add('hidden');
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('searchResults');
+
+            if (!query) {
+                resultsContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Type to search across the entire Buchanan presidential archive...</p>';
+                return;
+            }
+
+            const matchedWorks = worksData.filter(w => w.title.toLowerCase().includes(query) || w.desc.toLowerCase().includes(query));
+            const matchedBooks = booksData.filter(b => b.title.toLowerCase().includes(query) || b.summary.toLowerCase().includes(query));
+            const matchedCabinet = cabinetData.filter(c => c.name.toLowerCase().includes(query) || c.role.toLowerCase().includes(query));
+
+            let html = '';
+
+            if (matchedWorks.length > 0) {
+                html += '<h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mt-2 mb-1">Key Works & Events</h4>';
+                matchedWorks.forEach(w => {
+                    html += `
+                        <div onclick="closeSearchModal(); openWorkDetail(${worksData.indexOf(w)})" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 cursor-pointer border border-amber-500/30">
+                            <p class="text-white text-sm font-bold">${w.title} (${w.year})</p>
+                            <p class="text-xs text-gray-400 truncate">${w.desc}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            if (matchedBooks.length > 0) {
+                html += '<h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mt-3 mb-1">Literature & Books</h4>';
+                matchedBooks.forEach(b => {
+                    html += `
+                        <div onclick="closeSearchModal(); openBookModal('${b.id}')" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 cursor-pointer border border-amber-500/30">
+                            <p class="text-white text-sm font-bold">${b.title} (${b.year})</p>
+                            <p class="text-xs text-gray-400 truncate">${b.topic}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            if (matchedCabinet.length > 0) {
+                html += '<h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mt-3 mb-1">Administration</h4>';
+                matchedCabinet.forEach(c => {
+                    html += `
+                        <div onclick="closeSearchModal(); openCabinetModal(${cabinetData.indexOf(c)})" class="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 cursor-pointer border border-amber-500/30">
+                            <p class="text-white text-sm font-bold">${c.name}</p>
+                            <p class="text-xs text-gray-400">${c.role}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            if (!html) {
+                html = '<p class="text-xs text-gray-400 text-center py-4">No matching archival record found for "' + query + '"</p>';
+            }
+
+            resultsContainer.innerHTML = html;
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderWorksSlider();
+            renderBooksGrid();
+            renderCabinetGrid();
+            setupSliderControls();
+        });
+    </script>
+</body>
+</html>
